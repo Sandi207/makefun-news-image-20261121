@@ -1,10 +1,12 @@
-'use strict';
+// Place the bundled entry image in the chosen output directory.
+const fileSystem = require("node:fs");
+const paths = require("node:path");
 
-const fs = require('node:fs');
-const path = require('node:path');
+const deliveryFolder = process.env.MAKEFUN_OUTPUT_DIR || "/output";
+const bundledImage = paths.join(__dirname, "entry.png");
+const writtenImage = paths.join(deliveryFolder, "entry.png");
 
-const outputDirectory = process.env.MAKEFUN_OUTPUT_DIR || '/output';
-fs.mkdirSync(outputDirectory, { recursive: true });
-const destination = path.join(outputDirectory, 'entry.png');
-fs.copyFileSync(path.join(__dirname, 'entry.png'), destination);
-console.log(`Wrote ${destination}`);
+fileSystem.mkdirSync(deliveryFolder, { recursive: true });
+fileSystem.copyFileSync(bundledImage, writtenImage);
+
+console.log("Wrote image to " + writtenImage);
